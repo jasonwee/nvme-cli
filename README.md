@@ -1,3 +1,21 @@
+# build rpm for c7
+```
+
+docker run --privileged -v /dev/nvme0n1p1:/dev/nvme0n1p1 --rm -it centos:7 bash 
+yum makecache
+yum install -y vim git nano wget libuuid-devel.x86_64 
+yum groupinstall -y 'Development Tools'
+git clone https://github.com/linux-nvme/nvme-cli.git
+cd nvme-cli/
+# v1.12 because 1.13onward require centos8 due to systemd-udev
+git checkout v1.12
+make
+make rpm
+ls /root/rpmbuild/RPMS/x86_64/nvme-1.12-1.el7.x86_64.rpm 
+   /root/rpmbuild/RPMS/x86_64/nvme-debuginfo-1.12-1.el7.x86_64.rpm
+   /root/rpmbuild/SRPMS/nvme-1.12-1.el7.src.rpm
+```
+
 # nvme-cli
 ![Coverity Scan Build Status](https://scan.coverity.com/projects/24883/badge.svg)
 ![MesonBuild](https://github.com/linux-nvme/nvme-cli/actions/workflows/build.yml/badge.svg)
